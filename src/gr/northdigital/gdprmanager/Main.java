@@ -34,7 +34,7 @@ public class Main extends Application {
       FXMLLoader fxmlLoader = new FXMLLoader();
       fxmlLoader.setLocation(location);
       fxmlLoader.setBuilderFactory(new JavaFXBuilderFactory());
-      Parent root = (Parent) fxmlLoader.load(location.openStream());
+      Parent root = fxmlLoader.load(location.openStream());
 
       primaryStage.setTitle("GDPR Manager");
       primaryStage.setScene(new Scene(root, 600, 800));

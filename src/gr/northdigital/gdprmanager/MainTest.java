@@ -13,9 +13,9 @@ public class MainTest {
 
   @Before
   public void setUp() throws Exception {
-    //jdbcConBuilder = new JdbcConBuilder("192.168.1.201", "casino", "system", "sporades");
+    jdbcConBuilder = new JdbcConBuilder("192.168.1.201", "casino", "system", "sporades");
     // jdbcConBuilder = new JdbcConBuilder("192.168.1.202", "casino", "system", "sporades");
-    jdbcConBuilder = new JdbcConBuilder("localhost", "casino","system", "sporades");
+    //jdbcConBuilder = new JdbcConBuilder("localhost", "casino","system", "sporades");
     sqlWorker = new SqlWorker(jdbcConBuilder);
   }
 

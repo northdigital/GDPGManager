@@ -1,0 +1,14 @@
+<component name="libraryTable">
+  <library name="Oracle JDBC Library">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/../../lib/JDBC/Oracle/ojdbc7.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../../lib/JDBC/Oracle/orai18n.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../../lib/JDBC/Oracle/ucp.jar!/" />
+    </CLASSES>
+    <JAVADOC>
+      <root url="file://$PROJECT_DIR$/../../lib/JDBC/Oracle/DOCS/oracle-javadoc.zip" />
+      <root url="file://$PROJECT_DIR$/../../lib/JDBC/Oracle/DOCS/ucp_javadoc.zip" />
+    </JAVADOC>
+    <SOURCES />
+  </library>
+</component>

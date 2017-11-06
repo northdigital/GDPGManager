@@ -21,7 +21,8 @@ public class Main extends Application {
   SqlWorker sqlWorker;
 
   public Main() throws SQLException {
-    jdbcConBuilder = new JdbcConBuilder("localhost", "casino", "system", "sporades");
+    //jdbcConBuilder = new JdbcConBuilder("localhost", "casino", "system", "sporades");
+    jdbcConBuilder = new JdbcConBuilder("192.168.1.201", "casino", "system", "sporades");
     sqlWorker = new SqlWorker(jdbcConBuilder);
   }
 
@@ -29,7 +30,7 @@ public class Main extends Application {
   public void start(Stage primaryStage) {
 
     try {
-      URL location = getClass().getResource("fxml\\Main.fxml");
+      URL location = getClass().getResource("fxml/Main.fxml");
       FXMLLoader fxmlLoader = new FXMLLoader();
       fxmlLoader.setLocation(location);
       fxmlLoader.setBuilderFactory(new JavaFXBuilderFactory());

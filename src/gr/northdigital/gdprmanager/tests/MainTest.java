@@ -1,4 +1,4 @@
-package gr.northdigital.gdprmanager;
+package gr.northdigital.gdprmanager.tests;
 
 import gr.logismos.orasqlworker.SqlWorker;
 import gr.logismos.orasqlworker.utils.JdbcConBuilder;

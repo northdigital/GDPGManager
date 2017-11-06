@@ -46,11 +46,10 @@ public class Main extends Application {
       sqlWorker.run(connection -> users.addAll(OraHelper.getOraUsers(connection)));
 
       sqlWorker.run(connection -> {
-        for (String user : OraHelper.getOraUsers(connection)) {
-          mainController.cbUsers.getItems().add(user);
-          mainController.cbUsers.getSelectionModel().select(0);
-        }
+        mainController.cbUsers.getItems().addAll(OraHelper.getOraUsers(connection));
       });
+
+      mainController.cbUsers.getSelectionModel().select(0);
     } catch (Exception e) {
       e.printStackTrace();
     }

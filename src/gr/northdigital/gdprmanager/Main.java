@@ -6,11 +6,15 @@ import gr.northdigital.gdprmanager.fxml.MainController;
 import gr.northdigital.gdprmanager.utils.OraHelper;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.JavaFXBuilderFactory;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
+import java.net.URL;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Main extends Application {
   private JdbcConBuilder jdbcConBuilder;
@@ -25,15 +29,26 @@ public class Main extends Application {
   public void start(Stage primaryStage) {
 
     try {
-      Parent root = FXMLLoader.load(getClass().getResource("fxml\\Main.fxml"));
+      URL location = getClass().getResource("fxml\\Main.fxml");
+      FXMLLoader fxmlLoader = new FXMLLoader();
+      fxmlLoader.setLocation(location);
+      fxmlLoader.setBuilderFactory(new JavaFXBuilderFactory());
+      Parent root = (Parent) fxmlLoader.load(location.openStream());
 
       primaryStage.setTitle("GDPR Manager");
       primaryStage.setScene(new Scene(root, 600, 800));
       primaryStage.show();
 
+      MainController mainController = fxmlLoader.getController();
+      List<String> users = new ArrayList<>();
+
       sqlWorker.run(connection -> {
-        for(String user : OraHelper.getOraUsers(connection)) {
-          MainController.mainController.cbUsers.getItems().add(user);
+        users.addAll(OraHelper.getOraUsers(connection));
+      });
+
+      sqlWorker.run(connection -> {
+        for (String user : OraHelper.getOraUsers(connection)) {
+          mainController.cbUsers.getItems().add(user);
         }
       });
     } catch (Exception e) {

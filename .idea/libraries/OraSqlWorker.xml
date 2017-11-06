@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="OraSqlWorker">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/../OraSqlWorker/out/artifacts/OraSqlWorker_jar/OraSqlWorker.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

@@ -42,13 +42,12 @@ public class Main extends Application {
       MainController mainController = fxmlLoader.getController();
       List<String> users = new ArrayList<>();
 
-      sqlWorker.run(connection -> {
-        users.addAll(OraHelper.getOraUsers(connection));
-      });
+      sqlWorker.run(connection -> users.addAll(OraHelper.getOraUsers(connection)));
 
       sqlWorker.run(connection -> {
         for (String user : OraHelper.getOraUsers(connection)) {
           mainController.cbUsers.getItems().add(user);
+          mainController.cbUsers.getSelectionModel().select(0);
         }
       });
     } catch (Exception e) {

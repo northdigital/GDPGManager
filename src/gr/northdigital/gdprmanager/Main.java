@@ -35,15 +35,11 @@ public class Main extends Application {
       fxmlLoader.setLocation(location);
       fxmlLoader.setBuilderFactory(new JavaFXBuilderFactory());
       Parent root = fxmlLoader.load(location.openStream());
+      MainController mainController = fxmlLoader.getController();
 
       primaryStage.setTitle("GDPR Manager");
       primaryStage.setScene(new Scene(root, 600, 800));
       primaryStage.show();
-
-      MainController mainController = fxmlLoader.getController();
-      List<String> users = new ArrayList<>();
-
-      sqlWorker.run(connection -> users.addAll(OraHelper.getOraUsers(connection)));
 
       sqlWorker.run(connection -> {
         mainController.cbUsers.getItems().addAll(OraHelper.getOraUsers(connection));

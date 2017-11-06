@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.ListView?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.RowConstraints?>
 
-<GridPane alignment="center" hgap="10" vgap="10" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8.0.121" fx:controller="gr.northdigital.gdprmanager.fxml.MainController">
+<GridPane alignment="center" hgap="10" vgap="10" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gr.northdigital.gdprmanager.fxml.MainController">
    <columnConstraints>
       <ColumnConstraints />
    </columnConstraints>
@@ -16,7 +17,8 @@
    <children>
       <Pane prefHeight="200.0" prefWidth="200.0">
          <children>
-            <ComboBox fx:id="cbUsers" layoutX="14.0" layoutY="14.0" prefWidth="150.0" />
+            <ComboBox fx:id="cbUsers" layoutY="1.0" maxWidth="1.7976931348623157E308" onAction="#onAction" prefHeight="27.0" prefWidth="200.0" />
+            <ListView fx:id="lstTables" layoutY="28.0" prefHeight="173.0" prefWidth="200.0" />
          </children>
       </Pane>
    </children>

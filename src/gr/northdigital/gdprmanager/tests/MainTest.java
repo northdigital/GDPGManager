@@ -19,15 +19,32 @@ public class MainTest {
     sqlWorker = new SqlWorker(jdbcConBuilder);
   }
 
-  @org.junit.Test
+  //@org.junit.Test
   public void getUsers() throws Exception {
     try {
-      System.out.println("test1");
+      System.out.println("getUsers");
 
       sqlWorker.run(connection -> {
-        List<String> users = OraHelper.getOraUsers(connection);
+        List<String> results = OraHelper.getOraUsers(connection);
 
-        for (String string : users) {
+        for (String string : results) {
+          System.out.println(string);
+        }
+      });
+    } catch (Exception e) {
+      System.out.println(e.getMessage());
+    }
+  }
+
+  @org.junit.Test
+  public void getUserTables() throws Exception {
+    try {
+      System.out.println("getUserTables");
+
+      sqlWorker.run(connection -> {
+        List<String> results = OraHelper.getUserTables(connection, "CASINOCRM");
+
+        for (String string : results) {
           System.out.println(string);
         }
       });

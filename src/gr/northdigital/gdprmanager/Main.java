@@ -30,16 +30,15 @@ public class Main extends Application {
   public void start(Stage primaryStage) {
 
     try {
-      URL location = getClass().getResource("fxml/Main.fxml");
-      FXMLLoader fxmlLoader = new FXMLLoader();
-      fxmlLoader.setLocation(location);
+      FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("fxml/Main.fxml"));
       fxmlLoader.setBuilderFactory(new JavaFXBuilderFactory());
-      Parent root = fxmlLoader.load(location.openStream());
-      MainController mainController = fxmlLoader.getController();
+      Parent root = fxmlLoader.load();
 
       primaryStage.setTitle("GDPR Manager");
       primaryStage.setScene(new Scene(root, 600, 800));
       primaryStage.show();
+
+      MainController mainController = fxmlLoader.getController();
 
       sqlWorker.run(connection -> {
         mainController.cbUsers.getItems().addAll(OraHelper.getOraUsers(connection));

@@ -33,18 +33,11 @@ public class Main extends Application {
       FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("fxml/Main.fxml"));
       fxmlLoader.setBuilderFactory(new JavaFXBuilderFactory());
       Parent root = fxmlLoader.load();
+      //MainController mainController = fxmlLoader.getController();
 
       primaryStage.setTitle("GDPR Manager");
       primaryStage.setScene(new Scene(root, 600, 800));
       primaryStage.show();
-
-      MainController mainController = fxmlLoader.getController();
-
-      sqlWorker.run(connection -> {
-        mainController.cbUsers.getItems().addAll(OraHelper.getOraUsers(connection));
-      });
-
-      mainController.cbUsers.getSelectionModel().select(0);
     } catch (Exception e) {
       e.printStackTrace();
     }

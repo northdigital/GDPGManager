@@ -8,7 +8,6 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.ListView;
 
 import java.sql.SQLException;
-import java.util.List;
 
 public class MainController {
   private JdbcConBuilder jdbcConBuilder;
@@ -19,6 +18,15 @@ public class MainController {
     // jdbcConBuilder = new JdbcConBuilder("192.168.1.202", "casino", "system", "sporades");
     //jdbcConBuilder = new JdbcConBuilder("localhost", "casino","system", "sporades");
     sqlWorker = new SqlWorker(jdbcConBuilder);
+  }
+
+  @FXML
+  public void initialize() throws Exception {
+    sqlWorker.run(connection -> {
+      cbUsers.getItems().addAll(OraHelper.getOraUsers(connection));
+    });
+
+    cbUsers.getSelectionModel().select(0);
   }
 
   @FXML

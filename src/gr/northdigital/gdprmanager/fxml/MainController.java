@@ -11,7 +11,7 @@ import java.sql.SQLException;
 
 public class MainController {
   private JdbcConBuilder jdbcConBuilder;
-  SqlWorker sqlWorker;
+  private SqlWorker sqlWorker;
 
   public MainController() throws SQLException {
     //jdbcConBuilder = new JdbcConBuilder("192.168.1.201", "casino", "system", "sporades");
@@ -21,6 +21,11 @@ public class MainController {
   }
 
   @FXML
+  public ComboBox<String> cbUsers;
+
+  @FXML
+  public ListView<String> lstTables;
+
   public void initialize() throws Exception {
   }
 
@@ -29,16 +34,10 @@ public class MainController {
       cbUsers.getItems().addAll(OraHelper.getOraUsers(connection));
     });
 
-    cbUsers.getSelectionModel().selectFirst();
+    //cbUsers.getSelectionModel().selectFirst();
+    cbUsers.getSelectionModel().select("CASINOCRM");
   }
 
-  @FXML
-  public ComboBox<String> cbUsers;
-
-  @FXML
-  public ListView<String> lstTables;
-
-  @FXML
   public void onAction() throws Exception {
     String selectedUser = cbUsers.getValue();
     lstTables.getItems().clear();

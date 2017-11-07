@@ -38,6 +38,7 @@ public class MainController {
     cbUsers.getSelectionModel().select("CASINOCRM");
   }
 
+  @FXML
   public void onAction() throws Exception {
     String selectedUser = cbUsers.getValue();
     lstTables.getItems().clear();

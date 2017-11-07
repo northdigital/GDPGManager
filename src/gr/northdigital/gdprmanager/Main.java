@@ -16,10 +16,9 @@ public class Main extends Application {
 
   @Override
   public void start(Stage primaryStage) {
-
     try {
-
-      FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("fxml/Main.fxml"));
+      // we need the loader in order to get the controller, so we are loading in 2 steps
+      FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("./fxml/Main.fxml"));
       Parent root = fxmlLoader.load();
       MainController mainController = fxmlLoader.getController();
 
@@ -31,8 +30,10 @@ public class Main extends Application {
         }
       });
 
+      Scene scene = new Scene(root, 600, 800);
+      scene.getStylesheets().add(getClass().getResource("./fxml/standard.css").toExternalForm());
+      primaryStage.setScene(scene);
       primaryStage.setTitle("GDPR Manager");
-      primaryStage.setScene(new Scene(root, 600, 800));
       primaryStage.show();
     } catch (Exception ex) {
       ex.printStackTrace();

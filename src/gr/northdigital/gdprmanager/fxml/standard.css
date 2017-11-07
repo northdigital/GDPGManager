@@ -1,0 +1,13 @@
+#cbUsers {
+  /*-fx-font-size: 14px;*/
+  -fx-background-color: red;
+  -fx-text-fill: blue;
+  /*-fx-padding: 3 3 3 3;*/
+  /*-fx-border-radius: 20;*/
+}
+
+#lstTables {
+  /*-fx-background-color: blue;*/
+  /*-fx-text-fill: white;*/
+  -fx-border-radius: 10;
+}

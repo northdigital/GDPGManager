@@ -14,19 +14,22 @@ public class MainController {
   SqlWorker sqlWorker;
 
   public MainController() throws SQLException {
-    //jdbcConBuilder = new JdbcConBuilder("192.168.1.201", "casino", "system", "sporades");
+    jdbcConBuilder = new JdbcConBuilder("192.168.1.201", "casino", "system", "sporades");
     // jdbcConBuilder = new JdbcConBuilder("192.168.1.202", "casino", "system", "sporades");
-    jdbcConBuilder = new JdbcConBuilder("localhost", "casino","system", "sporades");
+    //jdbcConBuilder = new JdbcConBuilder("localhost", "casino","system", "sporades");
     sqlWorker = new SqlWorker(jdbcConBuilder);
   }
 
   @FXML
   public void initialize() throws Exception {
+  }
+
+  public void onShown() throws Exception {
     sqlWorker.run(connection -> {
       cbUsers.getItems().addAll(OraHelper.getOraUsers(connection));
     });
 
-    cbUsers.getSelectionModel().select(0);
+    cbUsers.getSelectionModel().selectFirst();
   }
 
   @FXML

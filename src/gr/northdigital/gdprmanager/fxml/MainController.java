@@ -2,19 +2,20 @@ package gr.northdigital.gdprmanager.fxml;
 
 import gr.logismos.orasqlworker.SqlWorker;
 import gr.logismos.orasqlworker.utils.JdbcConBuilder;
+import gr.northdigital.gdprmanager.model.ColumnDef;
 import gr.northdigital.gdprmanager.utils.OraHelper;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.ListView;
+import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
 import java.net.URL;
-import java.sql.SQLException;
 import java.util.ResourceBundle;
 
 public class MainController implements Initializable {
@@ -22,6 +23,7 @@ public class MainController implements Initializable {
   private SqlWorker sqlWorker;
   private ObservableList<String> users;
   private ObservableList<String> tables;
+  private ObservableList<ColumnDef> columns;
 
   @FXML
   public HBox hBoxMain;
@@ -35,19 +37,37 @@ public class MainController implements Initializable {
   @FXML
   public ListView<String> lstTables;
 
+  @FXML
+  public TableView<ColumnDef> tblColumns;
+
+  @FXML
+  public TableColumn<ColumnDef, String> columnName;
+
+  @FXML
+  public TableColumn<ColumnDef, Boolean> isSecure;
+
   @Override
   public void initialize(URL location, ResourceBundle resources) {
     try {
-      jdbcConBuilder = new JdbcConBuilder("192.168.1.201", "casino", "system", "sporades");
-      //jdbcConBuilder = new JdbcConBuilder("192.168.1.202", "casino", "system", "sporades");
-      //jdbcConBuilder = new JdbcConBuilder("localhost", "casino","system", "sporades");
-      sqlWorker = new SqlWorker(jdbcConBuilder);
-
       users = FXCollections.observableArrayList();
       tables = FXCollections.observableArrayList();
+      columns = FXCollections.observableArrayList(
+        new ColumnDef("c1", true),
+        new ColumnDef("c2", false)
+      );
+
+      columnName.setCellValueFactory(new PropertyValueFactory<>("columnName"));
+      isSecure.setCellValueFactory(new PropertyValueFactory<>("isSecure"));
+
+      //jdbcConBuilder = new JdbcConBuilder("192.168.1.201", "casino", "system", "sporades");
+      //jdbcConBuilder = new JdbcConBuilder("192.168.1.202", "casino", "system", "sporades");
+      jdbcConBuilder = new JdbcConBuilder("localhost", "casino","system", "sporades");
+
+      sqlWorker = new SqlWorker(jdbcConBuilder);
 
       cbUsers.setItems(users);
       lstTables.setItems(tables);
+      tblColumns.setItems(columns);
 
       sqlWorker.run(connection -> {
         users.clear();

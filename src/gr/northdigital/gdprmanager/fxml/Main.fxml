@@ -3,20 +3,33 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<HBox fx:id="hBoxMain" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gr.northdigital.gdprmanager.fxml.MainController">
+<AnchorPane prefHeight="387.0" prefWidth="717.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gr.northdigital.gdprmanager.fxml.MainController">
    <children>
-      <VBox fx:id="vBoxUsersTables">
+      <HBox fx:id="hBoxMain" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="469.0" AnchorPane.topAnchor="0.0">
          <children>
-            <ComboBox fx:id="cbUsers" maxWidth="1.7976931348623157E308" onAction="#onAction" />
-            <ListView fx:id="lstTables">
-               <VBox.margin>
-                  <Insets top="5.0" />
-               </VBox.margin>
-            </ListView>
+            <VBox fx:id="vBoxUsersTables" fillWidth="false" minHeight="-Infinity" minWidth="-Infinity" HBox.hgrow="NEVER">
+               <children>
+                  <ComboBox fx:id="cbUsers" onAction="#onAction" prefHeight="25.0" prefWidth="248.0" />
+                  <ListView fx:id="lstTables" VBox.vgrow="ALWAYS">
+                     <VBox.margin>
+                        <Insets top="5.0" />
+                     </VBox.margin>
+                  </ListView>
+               </children>
+            </VBox>
          </children>
-      </VBox>
+      </HBox>
+      <TableView fx:id="tblColumns" editable="true" layoutX="252.0" layoutY="30.0" prefHeight="400.0" prefWidth="214.0" tableMenuButtonVisible="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="252.0" AnchorPane.topAnchor="30.0">
+        <columns>
+          <TableColumn fx:id="columnName" prefWidth="75.0" text="column" />
+          <TableColumn fx:id="isSecure" prefWidth="75.0" text="secure" />
+        </columns>
+      </TableView>
    </children>
-</HBox>
+</AnchorPane>

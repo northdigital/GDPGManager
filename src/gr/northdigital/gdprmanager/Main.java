@@ -30,7 +30,7 @@ public class Main extends Application {
         }
       });
 
-      Scene scene = new Scene(root, 600, 800);
+      Scene scene = new Scene(root, 800, 600);
       scene.getStylesheets().add(getClass().getResource("./fxml/standard.css").toExternalForm());
       primaryStage.setScene(scene);
       primaryStage.setTitle("GDPR Manager");

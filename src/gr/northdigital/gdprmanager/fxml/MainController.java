@@ -58,7 +58,12 @@ public class MainController implements Initializable {
       );
 
       columnName.setCellValueFactory(new PropertyValueFactory<>("columnName"));
-      columnName.setCellFactory(TextFieldTableCell.forTableColumn());
+//      columnName.setCellFactory(TextFieldTableCell.forTableColumn());
+//      columnName.setOnEditCommit(e -> {
+//        TableColumn.CellEditEvent<ColumnDef, String> cellEditEventEventHandler = (TableColumn.CellEditEvent<ColumnDef, String>)e;
+//        ColumnDef columnDef = e.getRowValue();
+//        columnDef.setColumnName(cellEditEventEventHandler.getNewValue());
+//      });
 
       isSecure.setCellValueFactory(param -> param.getValue().isSecureProperty());
       isSecure.setCellFactory(CheckBoxTableCell.forTableColumn(isSecure));

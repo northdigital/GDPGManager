@@ -10,6 +10,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
+import javafx.scene.control.cell.CheckBoxTableCell;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.layout.HBox;
@@ -57,11 +58,14 @@ public class MainController implements Initializable {
       );
 
       columnName.setCellValueFactory(new PropertyValueFactory<>("columnName"));
-      isSecure.setCellValueFactory(new PropertyValueFactory<>("isSecure"));
+      columnName.setCellFactory(TextFieldTableCell.forTableColumn());
 
-      //jdbcConBuilder = new JdbcConBuilder("192.168.1.201", "casino", "system", "sporades");
+      isSecure.setCellValueFactory(param -> param.getValue().isSecureProperty());
+      isSecure.setCellFactory(CheckBoxTableCell.forTableColumn(isSecure));
+
+      jdbcConBuilder = new JdbcConBuilder("192.168.1.201", "casino", "system", "sporades");
       //jdbcConBuilder = new JdbcConBuilder("192.168.1.202", "casino", "system", "sporades");
-      jdbcConBuilder = new JdbcConBuilder("localhost", "casino","system", "sporades");
+      //jdbcConBuilder = new JdbcConBuilder("localhost", "casino","system", "sporades");
 
       sqlWorker = new SqlWorker(jdbcConBuilder);
 

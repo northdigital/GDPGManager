@@ -53,8 +53,8 @@ public class MainController implements Initializable {
       users = FXCollections.observableArrayList();
       tables = FXCollections.observableArrayList();
       columns = FXCollections.observableArrayList(
-        new ColumnDef("c1", true),
-        new ColumnDef("c2", false)
+        new ColumnDef("c1", false),
+        new ColumnDef("c2", true)
       );
 
       columnName.setCellValueFactory(new PropertyValueFactory<>("columnName"));

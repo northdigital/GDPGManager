@@ -1,25 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.ListView?>
-<?import javafx.scene.layout.ColumnConstraints?>
-<?import javafx.scene.layout.GridPane?>
-<?import javafx.scene.layout.Pane?>
-<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
 
-<GridPane alignment="center" hgap="10" vgap="10" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gr.northdigital.gdprmanager.fxml.MainController">
-   <columnConstraints>
-      <ColumnConstraints />
-   </columnConstraints>
-   <rowConstraints>
-      <RowConstraints />
-   </rowConstraints>
+<HBox fx:id="hBoxMain" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gr.northdigital.gdprmanager.fxml.MainController">
    <children>
-      <Pane prefHeight="200.0" prefWidth="200.0">
+      <VBox fx:id="vBoxUsersTables">
          <children>
-            <ComboBox fx:id="cbUsers" layoutY="1.0" maxWidth="1.7976931348623157E308" onAction="#onAction" prefHeight="27.0" prefWidth="200.0" />
-            <ListView fx:id="lstTables" layoutY="28.0" prefHeight="173.0" prefWidth="200.0" />
+            <ComboBox fx:id="cbUsers" maxWidth="1.7976931348623157E308" onAction="#onAction" />
+            <ListView fx:id="lstTables">
+               <VBox.margin>
+                  <Insets top="5.0" />
+               </VBox.margin>
+            </ListView>
          </children>
-      </Pane>
+      </VBox>
    </children>
-</GridPane>
+</HBox>

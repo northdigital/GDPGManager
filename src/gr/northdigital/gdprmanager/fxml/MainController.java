@@ -10,6 +10,8 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.ListView;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 
 import java.net.URL;
 import java.sql.SQLException;
@@ -20,6 +22,12 @@ public class MainController implements Initializable {
   private SqlWorker sqlWorker;
   private ObservableList<String> users;
   private ObservableList<String> tables;
+
+  @FXML
+  public HBox hBoxMain;
+
+  @FXML
+  public VBox vBoxUsersTables;
 
   @FXML
   public ComboBox<String> cbUsers;

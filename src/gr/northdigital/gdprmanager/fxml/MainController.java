@@ -3,16 +3,17 @@ package gr.northdigital.gdprmanager.fxml;
 import gr.logismos.orasqlworker.SqlWorker;
 import gr.logismos.orasqlworker.utils.JdbcConBuilder;
 import gr.northdigital.gdprmanager.model.ColumnDef;
+import gr.northdigital.gdprmanager.model.TableDef;
 import gr.northdigital.gdprmanager.utils.OraHelper;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.collections.transformation.FilteredList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.CheckBoxTableCell;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
@@ -23,7 +24,8 @@ public class MainController implements Initializable {
   private JdbcConBuilder jdbcConBuilder;
   private SqlWorker sqlWorker;
   private ObservableList<String> users;
-  private ObservableList<String> tables;
+  private ObservableList<TableDef> tables;
+  private FilteredList<TableDef> filteredTables;
   private ObservableList<ColumnDef> columns;
 
   @FXML
@@ -36,7 +38,7 @@ public class MainController implements Initializable {
   public ComboBox<String> cbUsers;
 
   @FXML
-  public ListView<String> lstTables;
+  public ListView<TableDef> lstTables;
 
   @FXML
   public TableView<ColumnDef> tblColumns;
@@ -52,10 +54,9 @@ public class MainController implements Initializable {
     try {
       users = FXCollections.observableArrayList();
       tables = FXCollections.observableArrayList();
-      columns = FXCollections.observableArrayList(
-        new ColumnDef("c1", false),
-        new ColumnDef("c2", true)
-      );
+      filteredTables = new FilteredList<>(tables, t -> true);
+
+      columns = FXCollections.observableArrayList();
 
       columnName.setCellValueFactory(new PropertyValueFactory<>("columnName"));
 //      columnName.setCellFactory(TextFieldTableCell.forTableColumn());
@@ -75,12 +76,12 @@ public class MainController implements Initializable {
       sqlWorker = new SqlWorker(jdbcConBuilder);
 
       cbUsers.setItems(users);
-      lstTables.setItems(tables);
+      lstTables.setItems(filteredTables);
       tblColumns.setItems(columns);
 
       sqlWorker.run(connection -> {
-        users.clear();
         users.addAll(OraHelper.getOraUsers(connection));
+        tables.addAll(OraHelper.getOraTables(connection));
       });
     } catch (Exception e) {
       e.printStackTrace();
@@ -95,10 +96,15 @@ public class MainController implements Initializable {
   public void onAction(ActionEvent actionEvent) throws Exception {
     if (actionEvent.getTarget() == cbUsers) {
       String selectedUser = cbUsers.getValue();
-      tables.clear();
-      sqlWorker.run(connection -> {
-        tables.addAll(OraHelper.getUserTables(connection, selectedUser));
+
+      filteredTables.setPredicate(table -> {
+        return table.getOwner().equals(selectedUser);
       });
+
+//      tables.clear();
+//      sqlWorker.run(connection -> {
+//        tables.addAll(OraHelper.getUserTables(connection, selectedUser));
+//      });
     }
   }
 }

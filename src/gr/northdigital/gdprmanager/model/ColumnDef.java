@@ -34,12 +34,15 @@ public class ColumnDef {
     this.isSecure.set(isSecure);
   }
 
-  private SimpleBooleanProperty isSecure;
-
   @DbField(fieldName = "owner")
   public String owner;
   @DbField(fieldName = "table_name")
   public String tableName;
+  @DbField(fieldName = "is_secured")
+  public Boolean originalIsSecured;
+
   @DbField(fieldName = "column_name")
   public SimpleStringProperty columnName;
+  @DbField(fieldName = "is_secured")
+  public SimpleBooleanProperty isSecure;
 }

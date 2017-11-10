@@ -90,7 +90,7 @@ public class MainController implements Initializable {
       });
 
       // read data from db
-      jdbcConBuilder = new JdbcConBuilder("localhost", "casino", "system", "sporades");
+      jdbcConBuilder = new JdbcConBuilder("192.168.1.201", "casino", "system", "sporades");
       sqlWorker = new SqlWorker(jdbcConBuilder);
 
       sqlWorker.run(connection -> {

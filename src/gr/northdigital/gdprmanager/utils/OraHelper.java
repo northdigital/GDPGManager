@@ -37,14 +37,37 @@ public class OraHelper {
   }
 
   public static List<ColumnDef> getOraColumns(Connection connection) throws Exception {
-    String sql = "SELECT t.owner, t.table_name, t.column_name, t.data_type FROM all_tab_cols t " +
-                 "WHERE t.owner NOT IN (" +
-                 "        'SYS', 'SYSTEM', 'OUTLN', 'DBSNMP', 'APPQOSSYS', 'XDB', 'GSMADMIN_INTERNAL', 'WMSYS', 'OJVMSYS', 'CTXSYS'," +
-                 "        'ORDSYS', 'ORDDATA', 'MDSYS', 'LBACSYS', 'OLAPSYS', 'FLOWS_FILES', 'APEX_040200', 'DVSYS', 'HR', 'IX', 'AUDSYS', 'PM'," +
-                 "        'OE', 'SCOTT', 'ORACLE_OCM', 'XS$NULL', 'MDDATA', 'SYSBACKUP', 'SH', 'DIP', 'SYSDG', 'APEX_PUBLIC_USER'," +
-                 "        'SPATIAL_CSW_ADMIN_USR', 'SPATIAL_WFS_ADMIN_USR', 'SI_INFORMTN_SCHEMA', 'DVF', 'SYSKM', 'ANONYMOUS', 'ORDPLUGINS')" +
-                 "      AND NOT EXISTS (" +
-                 "        SELECT 0 FROM all_views t2 WHERE t2.owner = t.owner AND t2.view_name = t.table_name)";
+    String sql = "WITH columns_vw AS" +
+      "(SELECT" +
+      "   t.owner," +
+      "   t.table_name," +
+      "   t.column_name," +
+      "   t.data_type" +
+      " FROM all_tab_cols t" +
+      " WHERE t.owner NOT IN (" +
+      "   'SYS', 'SYSTEM', 'OUTLN', 'DBSNMP', 'APPQOSSYS', 'XDB', 'GSMADMIN_INTERNAL', 'WMSYS', 'OJVMSYS', 'CTXSYS'," +
+      "   'ORDSYS', 'ORDDATA', 'MDSYS', 'LBACSYS', 'OLAPSYS', 'FLOWS_FILES', 'APEX_040200', 'DVSYS', 'HR', 'IX', 'AUDSYS', 'PM'," +
+      "   'OE', 'SCOTT', 'ORACLE_OCM', 'XS$NULL', 'MDDATA', 'SYSBACKUP', 'SH', 'DIP', 'SYSDG', 'APEX_PUBLIC_USER'," +
+      "   'SPATIAL_CSW_ADMIN_USR', 'SPATIAL_WFS_ADMIN_USR', 'SI_INFORMTN_SCHEMA', 'DVF', 'SYSKM', 'ANONYMOUS', 'ORDPLUGINS')" +
+      "       AND NOT EXISTS(" +
+      "   SELECT 0" +
+      "   FROM all_views t2" +
+      "   WHERE t2.owner = t.owner AND t2.view_name = t.table_name))" +
+      "SELECT" +
+      "  columns_vw.owner," +
+      "  columns_vw.table_name," +
+      "  columns_vw.column_name," +
+      "  columns_vw.data_type," +
+      "  CASE" +
+      "  WHEN EXISTS(SELECT 0" +
+      "              FROM columns_vw t" +
+      "              WHERE t.owner = columns_vw.owner AND" +
+      "                    t.table_name = columns_vw.table_name AND" +
+      "                    t.column_name = columns_vw.column_name || '_TLS')" +
+      "    THEN 1" +
+      "  ELSE 0" +
+      "  END AS is_secured " +
+      "FROM columns_vw columns_vw";
     Command command = new Command(connection, sql);
     ArrayList<ColumnDef> retVal = command.executeList(ColumnDef.class);
     command.close();

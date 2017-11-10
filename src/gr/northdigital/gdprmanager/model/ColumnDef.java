@@ -1,12 +1,13 @@
 package gr.northdigital.gdprmanager.model;
 
+import gr.logismos.orasqlworker.utils.DbField;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleStringProperty;
 
 public class ColumnDef {
-  public ColumnDef(String columnName, boolean isSecure) {
-    this.columnName = new SimpleStringProperty(columnName);
-    this.isSecure = new SimpleBooleanProperty(isSecure);
+  public ColumnDef() {
+    this.columnName = new SimpleStringProperty();
+    this.isSecure = new SimpleBooleanProperty();
   }
 
   public String getColumnName() {
@@ -33,6 +34,12 @@ public class ColumnDef {
     this.isSecure.set(isSecure);
   }
 
-  private SimpleStringProperty columnName;
   private SimpleBooleanProperty isSecure;
+
+  @DbField(fieldName = "owner")
+  public String owner;
+  @DbField(fieldName = "table_name")
+  public String tableName;
+  @DbField(fieldName = "column_name")
+  public SimpleStringProperty columnName;
 }

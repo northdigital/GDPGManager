@@ -9,7 +9,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane prefHeight="387.0" prefWidth="717.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gr.northdigital.gdprmanager.fxml.MainController">
+<AnchorPane prefHeight="387.0" prefWidth="717.0" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gr.northdigital.gdprmanager.fxml.MainController">
    <children>
       <HBox fx:id="hBoxMain" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="469.0" AnchorPane.topAnchor="0.0">
          <children>
@@ -25,10 +25,10 @@
             </VBox>
          </children>
       </HBox>
-      <TableView fx:id="tblColumns" editable="true" layoutX="252.0" layoutY="30.0" prefHeight="400.0" prefWidth="214.0" tableMenuButtonVisible="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="252.0" AnchorPane.topAnchor="30.0">
+      <TableView fx:id="tblColumns" editable="true" layoutX="252.0" layoutY="30.0" prefHeight="402.0" prefWidth="241.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="252.0" AnchorPane.topAnchor="30.0">
         <columns>
-          <TableColumn fx:id="columnName" editable="false" prefWidth="75.0" text="column" />
-          <TableColumn fx:id="isSecure" prefWidth="75.0" text="secure" />
+          <TableColumn fx:id="columnName" editable="false" prefWidth="182.0" text="column" />
+          <TableColumn fx:id="isSecure" prefWidth="58.0" text="secure" />
         </columns>
       </TableView>
    </children>

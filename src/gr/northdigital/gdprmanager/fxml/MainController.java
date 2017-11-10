@@ -5,6 +5,8 @@ import gr.logismos.orasqlworker.utils.JdbcConBuilder;
 import gr.northdigital.gdprmanager.model.ColumnDef;
 import gr.northdigital.gdprmanager.model.TableDef;
 import gr.northdigital.gdprmanager.utils.OraHelper;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
@@ -27,6 +29,7 @@ public class MainController implements Initializable {
   private ObservableList<TableDef> tables;
   private FilteredList<TableDef> filteredTables;
   private ObservableList<ColumnDef> columns;
+  private FilteredList<ColumnDef> filteredColumns;
 
   @FXML
   public HBox hBoxMain;
@@ -52,36 +55,45 @@ public class MainController implements Initializable {
   @Override
   public void initialize(URL location, ResourceBundle resources) {
     try {
+      // initialize collections
       users = FXCollections.observableArrayList();
       tables = FXCollections.observableArrayList();
       filteredTables = new FilteredList<>(tables, t -> true);
-
       columns = FXCollections.observableArrayList();
+      filteredColumns = new FilteredList<>(columns, t -> false);
 
+      // apply column factories
       columnName.setCellValueFactory(new PropertyValueFactory<>("columnName"));
-//      columnName.setCellFactory(TextFieldTableCell.forTableColumn());
-//      columnName.setOnEditCommit(e -> {
-//        TableColumn.CellEditEvent<ColumnDef, String> cellEditEventEventHandler = (TableColumn.CellEditEvent<ColumnDef, String>)e;
-//        ColumnDef columnDef = e.getRowValue();
-//        columnDef.setColumnName(cellEditEventEventHandler.getNewValue());
-//      });
-
       isSecure.setCellValueFactory(param -> param.getValue().isSecureProperty());
       isSecure.setCellFactory(CheckBoxTableCell.forTableColumn(isSecure));
 
-      jdbcConBuilder = new JdbcConBuilder("192.168.1.201", "casino", "system", "sporades");
-      //jdbcConBuilder = new JdbcConBuilder("192.168.1.202", "casino", "system", "sporades");
-      //jdbcConBuilder = new JdbcConBuilder("localhost", "casino","system", "sporades");
-
-      sqlWorker = new SqlWorker(jdbcConBuilder);
-
+      // apply datasets
       cbUsers.setItems(users);
       lstTables.setItems(filteredTables);
-      tblColumns.setItems(columns);
+      tblColumns.setItems(filteredColumns);
+
+      lstTables.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
+        if(newValue == null) {
+          filteredColumns.setPredicate(column -> false);
+          return;
+        }
+
+        String selectedOwner = newValue.getOwner();
+        String selectedTable = newValue.getTableName();
+
+        filteredColumns.setPredicate(column -> {
+          return selectedOwner != null && column.owner.equals(selectedOwner) && column.tableName.equals(selectedTable);
+        });
+      });
+
+      // read data from db
+      jdbcConBuilder = new JdbcConBuilder("192.168.1.201", "casino", "system", "sporades");
+      sqlWorker = new SqlWorker(jdbcConBuilder);
 
       sqlWorker.run(connection -> {
         users.addAll(OraHelper.getOraUsers(connection));
         tables.addAll(OraHelper.getOraTables(connection));
+        columns.addAll(OraHelper.getOraColumns(connection));
       });
     } catch (Exception e) {
       e.printStackTrace();
@@ -100,11 +112,6 @@ public class MainController implements Initializable {
       filteredTables.setPredicate(table -> {
         return table.getOwner().equals(selectedUser);
       });
-
-//      tables.clear();
-//      sqlWorker.run(connection -> {
-//        tables.addAll(OraHelper.getUserTables(connection, selectedUser));
-//      });
     }
   }
 }

@@ -10,12 +10,6 @@ public class TableDef {
     this.tableName = new SimpleStringProperty();
   }
 
-  public TableDef(String owner, String tableName) {
-    super();
-    this.owner.set(owner);
-    this.tableName.set(tableName);
-  }
-
   public String getOwner() {
     return owner.get();
   }

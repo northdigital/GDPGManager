@@ -35,21 +35,4 @@ public class MainTest {
       System.out.println(e.getMessage());
     }
   }
-
-  @org.junit.Test
-  public void getUserTables() throws Exception {
-    try {
-      System.out.println("getUserTables");
-
-      sqlWorker.run(connection -> {
-        List<String> results = OraHelper.getUserTables(connection, "CASINOCRM");
-
-        for (String string : results) {
-          System.out.println(string);
-        }
-      });
-    } catch (Exception e) {
-      System.out.println(e.getMessage());
-    }
-  }
 }

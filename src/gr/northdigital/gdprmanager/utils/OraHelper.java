@@ -2,6 +2,7 @@ package gr.northdigital.gdprmanager.utils;
 
 import gr.logismos.orasqlworker.command.Command;
 import gr.logismos.orasqlworker.param.VarcharInParam;
+import gr.northdigital.gdprmanager.model.ColumnDef;
 import gr.northdigital.gdprmanager.model.TableDef;
 
 import java.sql.Connection;
@@ -38,10 +39,18 @@ public class OraHelper {
     return retVal;
   }
 
-  public static List<String> getUserTables(Connection connection, String user) throws Exception {
-    String sql = "SELECT TABLE_NAME FROM dba_tables WHERE OWNER = ?";
-    Command command = new Command(connection, sql, new VarcharInParam(user));
-    ArrayList<String> retVal = command.executeSimpleList(String.class);
+  public static List<ColumnDef> getOraColumns(Connection connection) throws Exception {
+    String sql = "SELECT t.owner, t.table_name, t.column_name, t.data_type FROM all_tab_cols t\n" +
+                 "WHERE t.owner NOT IN (\n" +
+                 "  'SYS', 'SYSTEM', 'OUTLN', 'DBSNMP', 'APPQOSSYS', 'XDB', 'GSMADMIN_INTERNAL', 'WMSYS', 'OJVMSYS', 'CTXSYS',\n" +
+                 "  'ORDSYS', 'ORDDATA', 'MDSYS', 'LBACSYS', 'OLAPSYS', 'FLOWS_FILES', 'APEX_040200', 'DVSYS', 'HR', 'IX', 'AUDSYS', 'PM',\n" +
+                 "  'OE', 'SCOTT', 'ORACLE_OCM', 'XS$NULL', 'MDDATA', 'SYSBACKUP', 'SH', 'DIP', 'SYSDG', 'APEX_PUBLIC_USER',\n" +
+                 "  'SPATIAL_CSW_ADMIN_USR', 'SPATIAL_WFS_ADMIN_USR', 'SI_INFORMTN_SCHEMA', 'DVF', 'SYSKM', 'ANONYMOUS', 'ORDPLUGINS'\n" +
+                 ") AND NOT EXISTS (\n" +
+                 "  SELECT 0 FROM all_views t2 WHERE t2.owner = t.owner AND t2.view_name = t.table_name\n" +
+                 ")";
+    Command command = new Command(connection, sql);
+    ArrayList<ColumnDef> retVal = command.executeList(ColumnDef.class);
     command.close();
 
     return retVal;

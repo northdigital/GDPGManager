@@ -16,7 +16,8 @@ public class OraHelper {
                  "        'SYS', 'SYSTEM', 'OUTLN', 'DBSNMP', 'APPQOSSYS', 'XDB', 'GSMADMIN_INTERNAL', 'WMSYS', 'OJVMSYS', 'CTXSYS'," +
                  "        'ORDSYS', 'ORDDATA', 'MDSYS', 'LBACSYS', 'OLAPSYS', 'FLOWS_FILES', 'APEX_040200', 'DVSYS', 'HR', 'IX', 'AUDSYS', 'PM'," +
                  "        'OE', 'SCOTT', 'ORACLE_OCM', 'XS$NULL', 'MDDATA', 'SYSBACKUP', 'SH', 'DIP', 'SYSDG', 'APEX_PUBLIC_USER'," +
-                 "        'SPATIAL_CSW_ADMIN_USR', 'SPATIAL_WFS_ADMIN_USR', 'SI_INFORMTN_SCHEMA', 'DVF', 'SYSKM', 'ANONYMOUS', 'ORDPLUGINS')";
+                 "        'SPATIAL_CSW_ADMIN_USR', 'SPATIAL_WFS_ADMIN_USR', 'SI_INFORMTN_SCHEMA', 'DVF', 'SYSKM', 'ANONYMOUS', 'ORDPLUGINS') " +
+                 "ORDER BY username";
     Command command = new Command(connection, sql);
     ArrayList<String> retVal = command.executeSimpleList(String.class);
     command.close();
@@ -28,7 +29,8 @@ public class OraHelper {
     String sql = "SELECT owner, table_name FROM dba_tables " +
                  "WHERE owner NOT IN (" +
                  "        'SYS', 'SYSTEM', 'OUTLN', 'DBSNMP', 'APPQOSSYS', 'XDB', 'GSMADMIN_INTERNAL', 'WMSYS', 'OJVMSYS', 'CTXSYS', 'ORDSYS'," +
-                 "        'ORDDATA', 'MDSYS', 'LBACSYS', 'OLAPSYS', 'FLOWS_FILES', 'APEX_040200', 'DVSYS', 'HR', 'IX', 'AUDSYS', 'PM', 'OE')" ;
+                 "        'ORDDATA', 'MDSYS', 'LBACSYS', 'OLAPSYS', 'FLOWS_FILES', 'APEX_040200', 'DVSYS', 'HR', 'IX', 'AUDSYS', 'PM', 'OE') " +
+                 "ORDER BY table_name";
     Command command = new Command(connection, sql);
     ArrayList<TableDef> retVal = command.executeList(TableDef.class);
     command.close();
@@ -63,11 +65,11 @@ public class OraHelper {
       "              FROM columns_vw t" +
       "              WHERE t.owner = columns_vw.owner AND" +
       "                    t.table_name = columns_vw.table_name AND" +
-      "                    t.column_name = columns_vw.column_name || '_TLS')" +
+      "                    t.column_name = columns_vw.column_name || '" + Globals.SECURED_COLUMN_SUFFIX + "')" +
       "    THEN 1" +
       "  ELSE 0" +
       "  END AS is_secured " +
-      "FROM columns_vw columns_vw";
+      "FROM columns_vw columns_vw ORDER BY columns_vw.column_name";
     Command command = new Command(connection, sql);
     ArrayList<ColumnDef> retVal = command.executeList(ColumnDef.class);
     command.close();

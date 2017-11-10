@@ -4,16 +4,18 @@ import gr.logismos.orasqlworker.SqlWorker;
 import gr.logismos.orasqlworker.utils.JdbcConBuilder;
 import gr.northdigital.gdprmanager.model.ColumnDef;
 import gr.northdigital.gdprmanager.model.TableDef;
+import gr.northdigital.gdprmanager.utils.Globals;
 import gr.northdigital.gdprmanager.utils.OraHelper;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.*;
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.ListView;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
 import javafx.scene.control.cell.CheckBoxTableCell;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.HBox;
@@ -85,7 +87,8 @@ public class MainController implements Initializable {
         String selectedTable = newValue.getTableName();
 
         filteredColumns.setPredicate(column -> {
-          return column.owner.equals(selectedOwner) && column.tableName.equals(selectedTable);
+          return column.owner.equals(selectedOwner) && column.tableName.equals(selectedTable) &&
+                 !column.getColumnName().endsWith(Globals.SECURED_COLUMN_SUFFIX);
         });
       });
 

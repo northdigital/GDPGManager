@@ -72,17 +72,20 @@ public class MainController implements Initializable {
       lstTables.setItems(filteredTables);
       tblColumns.setItems(filteredColumns);
 
+      // set listener for table->selection change event
       lstTables.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
+        // when the new selection is null ...
         if(newValue == null) {
           filteredColumns.setPredicate(column -> false);
           return;
         }
 
+        // when the new selection is not null ...
         String selectedOwner = newValue.getOwner();
         String selectedTable = newValue.getTableName();
 
         filteredColumns.setPredicate(column -> {
-          return selectedOwner != null && column.owner.equals(selectedOwner) && column.tableName.equals(selectedTable);
+          return column.owner.equals(selectedOwner) && column.tableName.equals(selectedTable);
         });
       });
 
